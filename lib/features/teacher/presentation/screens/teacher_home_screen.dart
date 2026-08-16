@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:veriattend_app/core/constants/app_sizes.dart';
 import 'package:veriattend_app/core/constants/app_text_styles.dart';
+import 'package:veriattend_app/core/enums/weekday.dart';
 import 'package:veriattend_app/core/router/app_router.dart';
 import 'package:veriattend_app/core/widgets/app_error_widget.dart';
 import 'package:veriattend_app/core/widgets/app_scaffold.dart';
@@ -33,7 +34,8 @@ class _TeacherHomeScreenState extends ConsumerState<TeacherHomeScreen>
     with WidgetsBindingObserver {
   Timer? _tickTimer;
 
-  static const _todayParams = TeacherTimetableParams(today: true);
+  TeacherTimetableParams get _todayParams =>
+      TeacherTimetableParams(day: WeekDayExtension.today.apiValue);
 
   @override
   void initState() {

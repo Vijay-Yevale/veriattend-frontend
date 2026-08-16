@@ -11,6 +11,7 @@ class StatTile extends StatelessWidget {
   final Color color;
   final StatTileSize size;
   final IconData? icon;
+  final double? valueWidth;
 
   const StatTile({
     super.key,
@@ -19,6 +20,7 @@ class StatTile extends StatelessWidget {
     required this.color,
     this.size = StatTileSize.medium,
     this.icon,
+    this.valueWidth,
   });
 
   TextStyle get _valueStyle {
@@ -68,7 +70,10 @@ class StatTile extends StatelessWidget {
           const SizedBox(height: AppSizes.xs),
         ],
 
-        Text(value, style: _valueStyle, textAlign: TextAlign.center),
+        SizedBox(
+          width: valueWidth,
+          child: Text(value, style: _valueStyle, textAlign: TextAlign.center),
+        ),
 
         const SizedBox(height: 4),
 
@@ -146,8 +151,10 @@ class StatMiniCard extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
+
             if (subtitle != null) ...[
               const SizedBox(height: 4),
+
               Text(
                 subtitle!,
                 style: AppTextStyles.labelSmall.copyWith(
@@ -156,7 +163,9 @@ class StatMiniCard extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ],
+
             const SizedBox(height: 8),
+
             Text(
               label,
               style: AppTextStyles.bodySmall.copyWith(
