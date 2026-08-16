@@ -27,12 +27,10 @@ class SocketService {
       throw StateError('Authentication token not found.');
     }
 
-    final socketUrl = ApiConstants.baseUrl.replaceAll('/api', '');
-
     final completer = Completer<void>();
 
     _socket = io.io(
-      socketUrl,
+      ApiConstants.socketUrl,
       io.OptionBuilder()
           .setTransports(['websocket'])
           .disableAutoConnect()

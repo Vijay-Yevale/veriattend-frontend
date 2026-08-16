@@ -1,7 +1,11 @@
 class ApiConstants {
   ApiConstants._();
 
-  static const String baseUrl = 'http://192.168.1.13:5000/api';
+  static const String baseUrl =
+      'https://veriattend-backend-4qu3.onrender.com/api';
+
+  static const String socketUrl =
+      'https://veriattend-backend-4qu3.onrender.com';
 
   static const String register = '/auth/register';
   static const String login = '/auth/login';
