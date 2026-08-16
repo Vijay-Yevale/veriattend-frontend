@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import 'package:veriattend_app/core/constants/app_colors.dart';
@@ -11,7 +12,6 @@ import 'package:veriattend_app/core/router/app_router.dart';
 import 'package:veriattend_app/core/widgets/app_button.dart';
 import 'package:veriattend_app/core/widgets/section_card.dart';
 import 'package:veriattend_app/core/widgets/stat_tile.dart';
-import 'package:go_router/go_router.dart';
 
 import 'package:veriattend_app/features/attendance/presentation/providers/attendance_action_provider.dart';
 
@@ -52,14 +52,14 @@ class _AttendanceLiveViewState extends ConsumerState<AttendanceLiveView> {
                 1000)
             .ceil();
 
-    return "${seconds.clamp(0, 999)}s";
+    return '${seconds.clamp(0, 999)}s';
   }
 
   String get _endsIn {
     final diff = widget.state.session.expiresAt.difference(DateTime.now());
 
     if (diff.inMilliseconds <= 0) {
-      return "00:00";
+      return '00:00';
     }
 
     final totalSeconds = (diff.inMilliseconds / 1000).ceil();
@@ -67,7 +67,8 @@ class _AttendanceLiveViewState extends ConsumerState<AttendanceLiveView> {
     final minutes = totalSeconds ~/ 60;
     final seconds = totalSeconds % 60;
 
-    return "${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
+    return '${minutes.toString().padLeft(2, '0')}:'
+        '${seconds.toString().padLeft(2, '0')}';
   }
 
   void _openFullScreenQr() {
@@ -79,15 +80,11 @@ class _AttendanceLiveViewState extends ConsumerState<AttendanceLiveView> {
     return Column(
       children: [
         _buildQrCard(),
-
         const SizedBox(height: AppSizes.lg),
-
         _buildStatsCard(),
-
         const SizedBox(height: AppSizes.lg),
-
         AppButton(
-          label: "End Attendance",
+          label: 'End Attendance',
           icon: Icons.stop_circle_outlined,
           onPressed: () {
             ref.read(attendanceActionProvider.notifier).endAttendance();
@@ -98,11 +95,10 @@ class _AttendanceLiveViewState extends ConsumerState<AttendanceLiveView> {
   }
 
   Widget _buildQrCard() {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return SectionCard(
-      title: "Attendance QR",
+      title: 'Attendance QR',
       showArrow: false,
       child: Column(
         children: [
@@ -139,8 +135,6 @@ class _AttendanceLiveViewState extends ConsumerState<AttendanceLiveView> {
                   ),
                 ),
               ),
-
-              // Full screen
               Positioned(
                 top: AppSizes.md,
                 right: AppSizes.md,
@@ -166,7 +160,7 @@ class _AttendanceLiveViewState extends ConsumerState<AttendanceLiveView> {
                           ),
                           const SizedBox(width: AppSizes.xs),
                           Text(
-                            "Full Screen",
+                            'Full Screen',
                             style: AppTextStyles.labelMedium.copyWith(
                               color: colorScheme.primary,
                               fontWeight: FontWeight.w600,
@@ -178,8 +172,6 @@ class _AttendanceLiveViewState extends ConsumerState<AttendanceLiveView> {
                   ),
                 ),
               ),
-
-              // Live badge
               Positioned(
                 top: AppSizes.md,
                 left: AppSizes.md,
@@ -208,7 +200,7 @@ class _AttendanceLiveViewState extends ConsumerState<AttendanceLiveView> {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        "LIVE",
+                        'LIVE',
                         style: AppTextStyles.labelSmall.copyWith(
                           color: AppColors.success,
                           fontWeight: FontWeight.w700,
@@ -221,9 +213,7 @@ class _AttendanceLiveViewState extends ConsumerState<AttendanceLiveView> {
               ),
             ],
           ),
-
           const SizedBox(height: AppSizes.md),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -235,7 +225,7 @@ class _AttendanceLiveViewState extends ConsumerState<AttendanceLiveView> {
               const SizedBox(width: AppSizes.xs),
               Flexible(
                 child: Text(
-                  "Scan the latest QR to mark attendance.",
+                  'Scan the latest QR to mark attendance.',
                   textAlign: TextAlign.center,
                   style: AppTextStyles.bodySmall.copyWith(
                     color: colorScheme.onSurfaceVariant,
@@ -251,35 +241,37 @@ class _AttendanceLiveViewState extends ConsumerState<AttendanceLiveView> {
 
   Widget _buildStatsCard() {
     return SectionCard(
-      title: "Attendance Status",
+      title: 'Attendance Status',
       showArrow: false,
       child: StatTileRow(
         tiles: [
           StatTile(
             icon: Icons.groups_rounded,
-            label: "Present",
-            value: "${widget.state.presentCount}",
+            label: 'Present',
+            value: '${widget.state.presentCount}',
             color: AppColors.primary,
           ),
           StatTile(
             icon: Icons.qr_code_2_rounded,
-            label: "Version",
-            value: "${widget.state.session.qrVersion}",
+            label: 'Version',
+            value: '${widget.state.session.qrVersion}',
             color: AppColors.warning,
           ),
           StatTile(
             icon: Icons.refresh_rounded,
-            label: "Refresh",
+            label: 'Refresh',
             value: _refreshIn,
             color: AppColors.info,
-            valueWidth: 70,
+            size: StatTileSize.small,
+            valueWidth: 58,
           ),
           StatTile(
             icon: Icons.timer_outlined,
-            label: "Ends In",
+            label: 'Ends In',
             value: _endsIn,
             color: AppColors.error,
-            valueWidth: 70,
+            size: StatTileSize.small,
+            valueWidth: 58,
           ),
         ],
       ),
